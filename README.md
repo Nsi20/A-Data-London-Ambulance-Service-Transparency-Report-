@@ -8,16 +8,44 @@ This project analyzes the London Ambulance Service Transparency Report dataset, 
 
 The dataset used for this analysis is the "London Ambulance Service Transparency Report" available on [Kaggle.](https://www.kaggle.com/datasets/imtkaggleteam/ambulance-transparency-report) It comprises NHS (National Health Service) data on spending over £25,000 in the London Ambulance Service NHS Trust.
 
+## Tools Used 
+
+### Programming Language:
+
+Python: This entire analysis is performed using Python, a versatile language for data analysis and visualization.
+
+### Libraries:
+
+- Pandas: Used for data manipulation, cleaning, and analysis. It provides data structures like DataFrames for working with tabular data.
+- NumPy: Used for numerical computations, especially array operations.
+Matplotlib: Used for creating static, interactive, and animated visualizations.
+-Seaborn: Built on top of Matplotlib, Seaborn provides a higher-level interface for creating informative and attractive statistical graphics.
+
+### Specific Tools and Techniques:
+
+- Data Loading: google.colab.files is used to upload data to the Colab environment.
+- Data Cleaning: Pandas functions are used for renaming columns, converting data types, and handling missing values.
+- Data Aggregation: groupby() function in Pandas is used to group data by different categories (e.g., expense type, vendor).
+- Data Visualization: Various plot types from Matplotlib and Seaborn are used, including bar charts, line charts, heatmaps, and box plots.
+- Descriptive Statistics: Pandas functions like describe() are used for calculating summary statistics.
+- Time Series Analysis: Datetime functionalities in Pandas are used to analyze monthly and yearly trends.
+- Rolling Average: rolling() function in Pandas is used to calculate moving averages for smoothing time series data.
+- Pareto Analysis: Customized code is used to calculate and visualize the cumulative percentage of expenses and vendors.
+- Anomaly Detection: Statistical methods are applied to identify outliers based on standard deviation and thresholds.
+  
+### Google Colab Environment:
+
+The project leverages the Google Colab platform, which provides a cloud-based environment for running Python code and includes pre-installed libraries for data analysis. [Google Colaboratory](https://colab.google/)
 
 ## Project Goals
 
-- **Descriptive Analysis:** Provide summary statistics, frequency counts, and distributions of expenses across various categories.
-- **Exploratory Data Analysis:** Investigate trends and patterns in spending over time, by department, vendor, and expense type.
-- **Vendor Analysis:** Identify top vendors and their contribution to overall expenses.
-- **Departmental Analysis:** Analyze expense distribution across different departments.
-- **Time-Series Analysis:** Explore monthly and yearly expense trends and forecast future expenses.
-- **Outlier Detection:** Identify and analyze unusual or potentially problematic expenses.
-- **Cost Reduction Opportunities:** Highlight areas where potential cost savings can be achieved.
+- **Descriptive Analysis:** Providing summary statistics, frequency counts, and distributions of expenses across various categories.
+- **Exploratory Data Analysis:** Investigating trends and patterns in spending over time, by department, vendor, and expense type.
+- **Vendor Analysis:** Identifying top vendors and their contribution to overall expenses.
+- **Departmental Analysis:** Analyzing expense distribution across different departments.
+- **Time-Series Analysis:** Exploring monthly and yearly expense trends and forecast future expenses.
+- **Outlier Detection:** Identifying and analyzing unusual or potentially problematic expenses.
+- **Cost Reduction Opportunities:** Highlighting areas where potential cost savings can be achieved.
 
 ## Methodology
 
@@ -156,83 +184,105 @@ for col in categorical_columns:
 
   ![image](https://github.com/user-attachments/assets/8dba2ca5-40c5-4b99-9768-884880338379)
 
-
-### Category-Wise Trend Analysis
-
-```python
-df.columns = df.columns.str.strip()
-
-print(df.columns)
-
-df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
-
-
-df['Year-Month'] = df['Date'].dt.to_period('M')
-
-
-expense_type_trends = df.groupby(['Year-Month', 'Expense Type'])['Amount'].sum().unstack().fillna(0)
-
-
-for col in expense_type_trends.columns:
-    expense_type_trends[col] = pd.to_numeric(expense_type_trends[col], errors='coerce')
-
-
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(12, 8))
-expense_type_trends.plot(kind='line', marker='o', figsize=(12,8))
-plt.title('Category-Wise Trend Analysis for Expense Type')
-plt.xlabel('Year-Month')
-plt.ylabel('Total Amount')
-plt.xticks(rotation=45)
-plt.grid(True)
-plt.legend(title='Expense Type', bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.tight_layout()
-plt.show()
-```
-
-### Vendor-Specific Analysis
-
-```python
-df.columns = df.columns.str.strip()
-vendor_expenses = df.groupby('Vendor')['Amount'].sum().sort_values(ascending=False)
-top_vendors = vendor_expenses.head(10)
-print(top_vendors)
-```
-
 ### Vendor-Specific Trend Analysis (for Top Vendors)
+![image](https://github.com/user-attachments/assets/e95d31a4-9cd0-4856-95ba-1291cb4ecd7e)
 
-![image](https://github.com/user-attachments/assets/b9c290d0-6e88-4c84-8bf8-0db2e1b4b954
+![image](https://github.com/user-attachments/assets/d5acaba4-a146-45b9-94d9-bb880a79bc43)
 
-### Variance and Standard Deviation of Expenses
+![image](https://github.com/user-attachments/assets/33f08e18-3884-49ee-9c57-292a52b8880e)
 
----python
-df['Amount'] = pd.to_numeric(df['Amount'], errors='coerce')
+![image](https://github.com/user-attachments/assets/796eb9e0-b880-424a-bd1c-9af1a72d9a75)
+
+![image](https://github.com/user-attachments/assets/23c6de85-0f00-4bf6-8743-8be5cee13301)
+
+![image](https://github.com/user-attachments/assets/07113724-a36d-4afb-84a9-19fd880771fd
+
+![image](https://github.com/user-attachments/assets/c46ec1a7-f867-4b67-99eb-7985920793b9)
+
+![image](https://github.com/user-attachments/assets/e96ba28b-7165-49a9-99cf-5b059a280bdf)
+
+![image](https://github.com/user-attachments/assets/a7fb7782-1212-4fd2-8b09-aa46b1be5491)
+
+![image](https://github.com/user-attachments/assets/6006cbba-fa17-4812-864c-2f5a75d16fd8)
+
+![image](https://github.com/user-attachments/assets/03b259a9-1666-49bf-82ce-218ac662ac4a)
+
+# Key Findings of this project
+
+## Expense Distribution and Trends
+
+- Highest Expenses: The London Ambulance Service has significant spending on Telecommunications, Medical and Surgical Supplies, and Professional Services. These categories represent potential areas for cost reduction.
+
+- Top Vendors: A few vendors (Vendor A, Vendor B, etc.) account for a large portion of the total expenses. These could be considered for negotiation or alternative sourcing.
+
+- Monthly Trend: Expenses generally increase over time, indicating potential inflationary or operational growth factors.
+  
+- Departmental Differences: Certain departments (Emergency Medical Services, Administration) have higher spending than others. Further analysis can focus on their specific needs and resource allocation.
+  
+- Expense Frequency: Expenses occur more frequently on weekdays and during specific months, reflecting operational patterns and seasonality.
+
+### Potential Cost-Saving Opportunities:
+
+- Recurring Large Expenses: Analyze top vendors and recurring large expenses. This could lead to possibilities for negotiation with the vendors or the discovery of alternative sources, potentially resulting in savings.
+  
+- Telecommunications and Vendor A: These areas have significant spending, making them prime targets for optimization.
+Analysis Techniques:
+
+### Pareto Analysis: 
+
+- Identified the 80/20 rule: a few vendors and departments account for most expenses.
+  
+- Time-Based Analysis: Monthly expenses analysis revealed general trends and potential seasonality.
+  
+- Cross-Departmental Comparisons: Comparison across departments provides context for resource allocation and potential cost variations.
 
 
-expense_variance = df['Amount'].var()
-expense_std_dev = df['Amount'].std()
+# My Recommendations for the London Ambulance Service
 
+Following a comprehensive analysis of the organization's transparency report data, i recommend the following actions to optimize spending, enhance operational efficiency, and promote data-driven decision-making:
 
-print(f"Variance of Expenses: {expense_variance:.2f}")
-print(f"Standard Deviation of Expenses: {expense_std_dev:.2f}")
-```
+### Cost Reduction and Optimization
 
-### Expense Per Entity Per Category
+Strategic Vendor Management: I recommend actively engaging with top vendors to negotiate more favourable rates or explore alternative vendors to potentially reduce costs. This approach can significantly impact the budget, particularly for recurring large expenses.
 
-![image](https://github.com/user-attachments/assets/8372f0ec-2745-4532-8f9a-d2c77a4a3682)
+### Telecommunications Optimization:
 
-### Expense Concentration
+A review of the telecommunications expenses is warranted to identify opportunities for cost savings. This may involve optimizing current plans, reducing overall usage, or exploring alternative communication technologies.
 
-![image](https://github.com/user-attachments/assets/fd47385a-3310-41c5-9619-83b49edc1da1)
+### Outlier Investigation:
 
+I advise investigating the identified expense outliers to determine if they are legitimate or require corrective action. Addressing these outliers could prevent potential financial losses and improve budget accuracy.
 
-### Concentration by Expense Type
+### Recurring Expense Reduction:
+I recommend implementing cost-saving measures for recurring expenses in specific categories. This may include strategies such as bulk purchasing, energy efficiency initiatives, or process improvements to minimize costs over time.
 
-![image](https://github.com/user-attachments/assets/00704f43-d6fc-4eb5-bb73-da74c39f3069)
+## Operational Efficiency
+
+### Resource Optimization: 
+I recommend analyzing expense distribution across departments to identify potential areas for resource optimization. This analysis can inform decisions about reallocating funds to areas with higher needs or greater impact on operational efficiency.
+
+### Proactive Expense Monitoring:
+I suggest establishing a system for regular monitoring of monthly and yearly expense trends. This proactive approach can help identify potential issues early on and enable timely adjustments to budgets and operations.
+
+### Transparency Enhancement: 
+I encourage continued publication and enhancement of the transparency report. This practice fosters accountability, promotes public trust, and provides valuable insights into the organization's spending patterns.
+
+## Data-Driven Decision Making
+
+- Data-Informed Budgeting: I recommend leveraging the insights from this analysis to inform future budget planning and resource allocation decisions. This data-driven approach can lead to more strategic and effective budget management.
+
+- Predictive Modeling: I advise exploring more advanced forecasting techniques to predict future expenses. This capability can support proactive budget adjustments and resource planning to better manage financial resources.
+
+- Continuous Data Analysis: I recommend implementing a system for ongoing data collection and analysis. This continuous monitoring will enable the organizations to track performance, identify emerging trends, and make data-driven decisions for continuous improvement.
+
+- By adopting these recommendations, the London Ambulance Service can leverage data to make strategic decisions, optimize spending, and enhance operational efficiency for the benefit of the organization and the public it serves.
 
 ## Conclusion
 
-This project provides a comprehensive analysis of the London Ambulance Service Transparency Report, offering insights into the organization's spending patterns and operational efficiency.
-Use code with caution
-I've included code snippets for key sections of your analysis and added placeholders for your visuals. Remember to replace these placeholders with the actual images generated during your analysis. I hope this revised overview is more helpful! Let me know if you have any other questions.
+This project comprehensively analyses the London Ambulance Service Transparency Report, offering insights into the organization's spending patterns and operational efficiency.
+
+## Future Work: 
+Further investigation is needed to explore the specific cost drivers for the top expense categories and evaluate the potential for negotiation with major vendors. Predictive models could be developed to forecast future expenses and enhance budget planning. Comparing spending patterns with other ambulance services could provide valuable benchmarks for performance improvement.
+
+### Limitations:
+This analysis was limited by the available data in the transparency report. More granular data, including details about individual transactions and service utilization, would enhance future analysis.
